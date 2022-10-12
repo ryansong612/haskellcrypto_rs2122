@@ -3,6 +3,23 @@ module Tests where
 import IC.TestSuite
 
 import Crypto
+    ( gcd,
+      phi,
+      computeCoeffs,
+      inverse,
+      modPow,
+      smallestCoPrimeOf,
+      genKeys,
+      rsaEncrypt,
+      rsaDecrypt,
+      toInt,
+      toChar,
+      add,
+      substract,
+      ecbEncrypt,
+      ecbDecrypt,
+      cbcEncrypt,
+      cbcDecrypt )
 
 -------------------------------------------------------------------------------
 -- PART 1 : asymmetric encryption
