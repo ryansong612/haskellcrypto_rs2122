@@ -140,7 +140,7 @@ add p q
         = toChar t
         where
           m = toInt p + toInt q
-          t = mod m 26                 -}
+          t = mod m 26 -}
 
 -- "substracts" two letters
 substract :: Char -> Char -> Char  -- this function also takes in two inputs, both characters, but this time it substracts their positions and return character that is located at the position of difference
