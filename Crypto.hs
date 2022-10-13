@@ -15,7 +15,7 @@ a symmetric key k. The key k of fixed size 256 bits for example is then exchange
 via the aymmetric RSA.
 -}
 
--------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 -- PART 1 : asymmetric encryption
 
 -- This function is called gcd, which is short for "greatest common divisor"
