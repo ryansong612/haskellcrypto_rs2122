@@ -63,13 +63,14 @@ modPow a k m
     | otherwise = mod (a * modPow c (div k 2) m) m -- simply writing the second formula using code
     where
         c = mod a m ^ 2 `mod` m                -- using modPov incurrs a stack overflow (reasons explained by Wojtek through teams)
+        -- mod (a^2) m
 
 -- Returns the smallest integer that is coprime with phi
 -- I did not discuss cases where input s is 0 because the smallestCoPrime premise is when r is a positive integer
 checkPrime :: Int -> Int -> Int      -- The checkPrime function acts as a checkpoint for us whenever we increment s by 1 after we've found gcd(r, s) != 1
 checkPrime r s                       -- like gcd, it takes two ints r and s as its inputs
   | gcd r s == 1 = s                 -- If the gcd function returns a one, then we have already found our smallest Coprime, we will then simply return it. This includes the case where r = 0 (see gcd code where gcd 0 n = n)
-  | otherwise = checkPrime r (s + 1) -- Otherwise we increment s by 1 and keep checking whether it is the smallest Coprime that we are looking for
+  | otherwise    = checkPrime r (s + 1) -- Otherwise we increment s by 1 and keep checking whether it is the smallest Coprime that we are looking for
 
 smallestCoPrimeOf :: Int -> Int      -- the smallestCoPrime takes in only one input phi, we then checkPrime for phi and 2 and it will yield us with a desired result. This is what the specification asked us for.
 smallestCoPrimeOf phi = checkPrime phi 2
@@ -111,7 +112,7 @@ toInt :: Char -> Int            -- The toInt function will take a Char as its in
 toInt c
   | ord c >= ord 'a' && ord c <= ord 'z' = ord c - ord 'a'     -- returns the position if the input is a lowercase alphabet
   | ord c >= ord 'A' && ord c <= ord 'Z' = ord c - ord 'A'     -- returns the position if the input is an uppercase alphabet
-  | otherwise = error "toInt Error"                            -- if the input is not an alphabet, we exit with an error
+  | otherwise                            = error "toInt Error"                            -- if the input is not an alphabet, we exit with an error
 
 -- Returns the n^th letter
 -- pre: x >= -26 (this is because subtract function's minimum value is -25 when 'a' - 'z')
@@ -123,7 +124,7 @@ toChar x
   | x >= 0 && x <= 25 = chr(ord 'a' + x)                        -- where the input is between 0 and 25 and we simply increment 'a's ASCII value based on the input and return the character
   | x > 25            = chr(x `mod` z + ord 'a')            -- where the input is out of the range of 0-25, and we need to loop back through the alphabet list and return the character
   | x < 0 && x >= -26 = chr(ord 'z' + x + 1)                    -- where the input is between -1 and -25 and we need to loop through the alphabet list in reverse order and return the character
-  | otherwise = error "toChar Error"                            -- the pre condition of the function is that x >= -26, if the input is out of that range then we exit with an error
+  | otherwise         = error "toChar Error"                            -- the pre condition of the function is that x >= -26, if the input is out of that range then we exit with an error
   where
       z = toInt 'z' + 1
 
@@ -162,8 +163,8 @@ substract p q
 -- ecb (electronic codebook) with block size of a letter
 ecbEncrypt :: Char -> String -> String
 ecbEncrypt k m                                 -- the ecbEncrypt function takes in k, a character, as its key, and m, a string, as its message to be encrypted, then it returns an encrypted string
-    | m == ""   = ""                           -- for the case where the input message is an empty string, then no matter how we encrypt it, it is still an empty string, hence we return it
-    | otherwise = add k m' : ecbEncrypt k ms   -- if the input is not empty, then we simply implement the formula mentioned in the specs, and apply recursion to encrypt the message
+    | m == ""     = ""                           -- for the case where the input message is an empty string, then no matter how we encrypt it, it is still an empty string, hence we return it
+    | otherwise   = add k m' : ecbEncrypt k ms   -- if the input is not empty, then we simply implement the formula mentioned in the specs, and apply recursion to encrypt the message
     where
         (m' : ms) = m                          -- defining variables m' and ms
 
@@ -175,8 +176,8 @@ ecbEncrypt k m
 
 ecbDecrypt :: Char -> String -> String
 ecbDecrypt k' u                                         -- the ecbDecrypt function takes in k', a character, as its key, and u, an encrypted message/string, then it returns a decrypted string
-    | u == ""   = ""                                    -- for the case where the input encrypted message is an empty string, then still, no matter how we try to decrypt it, it is still empty. We return it.
-    | otherwise = substract u' k' : ecbDecrypt k' us    -- if the input is not empty, then we still just implement the formula mentioned in the specs, or the reverse of the encryption code (using subtract)
+    | u == ""     = ""                                    -- for the case where the input encrypted message is an empty string, then still, no matter how we try to decrypt it, it is still empty. We return it.
+    | otherwise   = substract u' k' : ecbDecrypt k' us    -- if the input is not empty, then we still just implement the formula mentioned in the specs, or the reverse of the encryption code (using subtract)
     where                                               -- Note: We also use recursion here, but be aware of the order of input for substract (u - k' != k' - u)
         (u' : us) = u                                   -- defining variables u' and us
 
@@ -188,7 +189,7 @@ ecbDecrypt k' u                                         -- the ecbDecrypt functi
 
 cbcEncrypt :: Char -> Char -> String -> String
 cbcEncrypt k v x                         -- the cbcEncrypt function also takes in k as its character key, x as its message string to be encrypted, but it also has an initializing vector v. In this case, it's a Char
-  | x == "" = ""                         -- Same as before, if the input string is empty, no need to encrypt it, we return it as an empty string
+  | x == ""   = ""                         -- Same as before, if the input string is empty, no need to encrypt it, we return it as an empty string
   | otherwise = m : cbcEncrypt k m xs    -- Implementing the formula into code form, and using the recursion of cbcEncrypt
   where
     (x' : xs) = x                        -- defining variables x', xs, i, and m
@@ -197,7 +198,7 @@ cbcEncrypt k v x                         -- the cbcEncrypt function also takes i
 
 cbcDecrypt :: Char -> Char -> String -> String
 cbcDecrypt k' v c                                     -- the cbcDecrypt function takes in k' as its character key, c as its ciphered message to decrypt, and an initializing vector v
-  | c == "" = ""                                      -- if the input is empty, then return empty string because it will be the same after decryption
+  | c == ""   = ""                                      -- if the input is empty, then return empty string because it will be the same after decryption
   | otherwise = substract t v : cbcDecrypt k' c' cs   -- Implementing the decryption formula into code form and also using the recursion of cbcDecrypt
   where
     (c' : cs) = c                                     -- defining variables c', cs, t
