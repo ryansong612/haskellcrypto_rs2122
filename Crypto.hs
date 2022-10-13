@@ -144,7 +144,7 @@ add p q
 -- End of alternative method
 
 
--- "substracts" two letters
+-- "substracts" two letters p q
 substract :: Char -> Char -> Char  -- this function also takes in two inputs, both characters, but this time it substracts their positions and return character that is located at the position of difference
 substract p q
   = toChar (toInt p - toInt q)

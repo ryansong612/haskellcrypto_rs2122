@@ -111,7 +111,7 @@ inverseTestCases
     , (2, 3) ==> 2
     , (9, 8) ==> 1
     , (100, 3) ==> 1
-    -- I attempted to compute inverse 100 2, and it returned an error on the screen (which was expected)--
+    -- I attempted to compute inverse 100 2. It returned an error on the screen (which was expected)--
     , (33, 91) ==> 80
     , (198, 89) ==> 49
     ]
