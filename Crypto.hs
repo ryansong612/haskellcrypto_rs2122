@@ -121,11 +121,11 @@ toInt c
 toChar :: Int -> Char
 toChar x
   | x >= 0 && x <= 25 = chr(ord 'a' + x)                        -- where the input is between 0 and 25 and we simply increment 'a's ASCII value based on the input and return the character
-  | x > 25            = chr(x `mod` z - 1 + ord 'a')            -- where the input is out of the range of 0-25, and we need to loop back through the alphabet list and return the character
+  | x > 25            = chr(x `mod` z + ord 'a')            -- where the input is out of the range of 0-25, and we need to loop back through the alphabet list and return the character
   | x < 0 && x >= -26 = chr(ord 'z' + x + 1)                    -- where the input is between -1 and -25 and we need to loop through the alphabet list in reverse order and return the character
   | otherwise = error "toChar Error"                            -- the pre condition of the function is that x >= -26, if the input is out of that range then we exit with an error
   where
-      z = toInt 'z'
+      z = toInt 'z' + 1
 
 -- Below is a different way of writing toChar (this goes hand in hand in the alternative method to write add)
 {-| x >= 0 && x <= 25 = chr (x + ord 'a')
