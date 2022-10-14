@@ -103,7 +103,7 @@ toInt :: Char -> Int
 toInt c
   | ord c >= ord 'a' && ord c <= ord 'z' = ord c - ord 'a'
   | ord c >= ord 'A' && ord c <= ord 'Z' = ord c - ord 'A'
-  | otherwise                            = error "toInt Error"
+  | otherwise                            = error "Non-alphabetic Input"
 
 -- Returns the n^th letter (case insensitive)
 toChar :: Int -> Char
